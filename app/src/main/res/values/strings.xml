@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Proof Of Concept</string>
+    <string name="failed_to_load">Failed to load data</string>
+</resources>
