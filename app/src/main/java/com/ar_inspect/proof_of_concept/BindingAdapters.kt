@@ -37,7 +37,12 @@ object BindingAdapters {
             imageView?.let { iv ->
                 Glide.with(iv.context)
                     .load(imageUrl)
-                    .apply(RequestOptions().override(iv.width, iv.height))
+                    .apply(
+                        RequestOptions()
+                            .override(iv.width, iv.height)
+                            .placeholder(R.drawable.ic_default_img)
+                            .error(R.drawable.ic_default_img)
+                    )
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(iv)
                 iv.show()
