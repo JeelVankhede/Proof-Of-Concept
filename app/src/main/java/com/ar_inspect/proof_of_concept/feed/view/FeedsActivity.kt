@@ -21,20 +21,33 @@ import com.google.android.material.snackbar.Snackbar
 /**
  * [FeedsActivity] :
  *
+ * Activity class that loads feeds from network/local database with the help of ViewModel
+ * and binds it to UI with the help of binder class.
+ *
+ * Provides feeds whether from local database if available as cached else performs network call to fetch feeds
+ *
+ * Also handles screen rotation to maintain data across configuration changes.
+ *
  * @author : Jeel Vankhede
  * @version 1.0.0
  * @since 10/16/2019
+ *
+ * @see AbstractBaseActivity
  */
-
 class FeedsActivity : AbstractBaseActivity() {
     companion object {
         const val EXTRA_FLAG_CALL_API = "makeApiCall"
     }
 
+    /**
+     * Lazy Binder class to handle data-binding
+     */
     private val activityMainBinder by lazy {
         return@lazy FeedsActivityBinder()
     }
-
+    /**
+     * ViewModel class to handle UI Logic & Observable Data
+     */
     private val feedsDetailViewModel by lazy {
         ViewModelProviders.of(this)[FeedsViewModel::class.java]
     }
@@ -58,19 +71,30 @@ class FeedsActivity : AbstractBaseActivity() {
         }
     }
 
+    /**
+     * Method to handle swipe refresh callback
+     */
     private fun setupRefreshCallbacks() {
         activityMainBinder.onRefreshCallback = {
             if (isNetworkConnected())
                 feedsDetailViewModel.refreshFeeds()
-            else
+            else {
                 rootView.showSnackBar(getString(R.string.no_internet))
+                activityMainBinder.showSwipeProgress(false)
+            }
         }
     }
 
+    /**
+     * Requests ViewModel for latest list of feeds
+     */
     private fun getFeeds() {
         feedsDetailViewModel.getFeeds()
     }
 
+    /**
+     * Method contains several live data observed to maintain UI state Up-to-date
+     */
     private fun observeData() {
         feedsDetailViewModel.feedsLiveData.observe(this, Observer {
             activityMainBinder.showSwipeProgress(false)
@@ -116,6 +140,11 @@ class FeedsActivity : AbstractBaseActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    /**
+     * Extension to show `snackbar` based on [View] and displays [message] on the screen for Short period of time.
+     *
+     * @param message to be displayed on the screen as [String]
+     */
     private fun View?.showSnackBar(message: String) {
         val snackBar = this?.let { Snackbar.make(it, message, Snackbar.LENGTH_LONG) }
         snackBar?.show()

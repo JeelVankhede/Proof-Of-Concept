@@ -21,6 +21,9 @@ import com.bumptech.glide.request.RequestOptions
  * @since 10/16/2019
  */
 object BindingAdapters {
+    /**
+     * Set image url passed in as [imageUrl] variable
+     */
     @JvmStatic
     @BindingAdapter(
         "imageUrl",
@@ -45,12 +48,19 @@ object BindingAdapters {
 
     }
 
+    /**
+     * Method set state of [SwipeRefreshLayout] based on [isRefreshing] variable
+     */
     @JvmStatic
     @BindingAdapter("refreshing", requireAll = false)
     fun setSwipeRefreshing(swipeRefreshLayout: SwipeRefreshLayout?, isRefreshing: Boolean) {
         swipeRefreshLayout?.isRefreshing = isRefreshing
     }
 
+    /**
+     * Change visibility of [View] based on flag [show],
+     * simple [Boolean] flag which indicates **true** as showing and **false** as gone.
+     */
     @JvmStatic
     @BindingAdapter("setVisibility", requireAll = false)
     fun setVisibility(view: View?, show: Boolean) {
