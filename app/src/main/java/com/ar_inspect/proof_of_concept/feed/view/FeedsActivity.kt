@@ -15,6 +15,7 @@ import com.awesome_lib.core.absBuilder
 import com.awesome_lib.core.api.takeIfError
 import com.awesome_lib.core.api.takeIfErrorMessage
 import com.awesome_lib.core.api.takeIfNoConnection
+import com.awesome_lib.core.isNetworkConnected
 import com.google.android.material.snackbar.Snackbar
 
 /**
@@ -59,7 +60,10 @@ class FeedsActivity : AbstractBaseActivity() {
 
     private fun setupRefreshCallbacks() {
         activityMainBinder.onRefreshCallback = {
-            feedsDetailViewModel.refreshFeeds()
+            if (isNetworkConnected())
+                feedsDetailViewModel.refreshFeeds()
+            else
+                rootView.showSnackBar(getString(R.string.no_internet))
         }
     }
 
@@ -99,7 +103,7 @@ class FeedsActivity : AbstractBaseActivity() {
                 tr.message?.let { msg -> rootView.showSnackBar(msg) }
             } takeIfNoConnection {
                 activityMainBinder.feedsAdapter?.clear()
-                rootView.showSnackBar("No internet connection found !")
+                rootView.showSnackBar(getString(R.string.no_internet))
             } takeIfErrorMessage {
                 activityMainBinder.feedsAdapter?.clear()
                 rootView.showSnackBar(getErrorMessage())
