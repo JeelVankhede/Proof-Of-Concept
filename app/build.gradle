@@ -15,6 +15,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+        setProperty("archivesBaseName", "Proof_Of_Concept-${versionName}-[${new Date().format("dd-MMM-yyyy")}]")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
