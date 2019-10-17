@@ -66,4 +66,4 @@
 
 # Output
 
-Download Apk from **[here](https://github.com/JeelVankhede/Proof-Of-Concept/blob/master/apk/Proof_Of_Concept-1.0-[17-Oct-2019]-debug.apk)**
+Download Apk from **[here](https://github.com/JeelVankhede/Proof-Of-Concept/raw/master/apk/Proof_Of_Concept-1.0-[17-Oct-2019]-debug.apk)**
